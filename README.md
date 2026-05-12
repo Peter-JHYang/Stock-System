@@ -34,3 +34,47 @@ print(df.to_dict(orient="records"))
 - `raw_html`: 找到的表格 HTML 原始字串，便於後續自訂解析
 
 注意：MOPS 頁面結構與參數可能改變，此為可擴充的解析骨架，實務使用時請依官方文件與實際 HTML 調整關鍵字與欄位解析邏輯。
+
+## 安裝與常見問題
+
+快速安裝（推薦）:
+
+```bash
+cd ~/tw_stock_project
+./install.sh
+```
+
+或手動：
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -e .
+```
+
+啟動本地 Streamlit UI：
+
+```bash
+. .venv/bin/activate
+streamlit run src/app.py
+```
+
+若你在執行 `streamlit run src/app.py` 時遇到 `No module named 'src'`，請確定你在專案根目錄並且已執行 `pip install -e .`，或用 `PYTHONPATH=. streamlit run src/app.py` 啟動。
+
+macOS 常見問題：
+- 若遇到 BeautifulSoup 相關的 lxml 解析器問題，請先安裝系統套件：
+
+```bash
+brew install libxml2 libxslt
+export LDFLAGS="-L/usr/local/opt/libxml2/lib -L/usr/local/opt/libxslt/lib"
+export CPPFLAGS="-I/usr/local/opt/libxml2/include -I/usr/local/opt/libxslt/include"
+```
+
+- 若遇到需要編譯的套件建議先安裝 Xcode command line tools：
+
+```bash
+xcode-select --install
+```
+
+CI: 本專案已包含 GitHub Actions 工作流程，在 push/PR 到 `main` 時會執行 `pytest`。
+
